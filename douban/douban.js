@@ -5,13 +5,9 @@ var cheerio = require('cheerio');
 var request = require('request');
 var url = 'https://www.douban.com/';
 var download = require('./download');
+var webpage = require('webpage');
 
-// request(url,function (error,response,body) {
-//     console.log(body);
-//     var $ = cheerio.load(body);
-//     // var item = [];
-//
-// })
+
 var options = {
     url: 'https://www.douban.com/',
     headers: {
@@ -57,6 +53,15 @@ request.get(options, function (error, response, body) {
         var texts = $(element).text();
         time_text.push(texts);
     })
-    console.log(time_text)
+    // console.log(time_text)
 
+    var movie_pic = [];
+    $("#anony-movie>.wrapper>.main>.movie-list list>ul>li>a>img").each(function (index,element) {
+        var filmpic = $(element).attr('src');
+        movie_pic.push(filmpic);
+        download(filmpic,'myDouban','movie'+index+'jpg');
+    })
+    console.log(movie_pic);
 })
+
+
